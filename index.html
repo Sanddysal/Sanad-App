@@ -1,0 +1,2010 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <title>MY — Personal System</title>
+
+  <style>
+    :root{
+      --bg:#090b10;
+      --panel:#11151d;
+      --panel2:#171c25;
+      --line:#252c38;
+      --text:#f5f7fb;
+      --muted:#8e98a8;
+      --accent:#7c5cff;
+      --accent2:#25d9a6;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 70% -10%,#21194a 0,#090b10 35%);
+      color:var(--text);
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    button,input,textarea,select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    .app{
+      max-width:1100px;
+      margin:auto;
+      min-height:100vh;
+      padding:18px 18px 105px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:8px 2px 22px;
+    }
+
+    .brand{
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-1px;
+    }
+
+    .brand span{
+      color:#9b8aff;
+    }
+
+    .iconbtn{
+      width:44px;
+      height:44px;
+      border:1px solid var(--line);
+      background:#121720;
+      color:white;
+      border-radius:14px;
+      font-size:24px;
+    }
+
+    .hero{
+      padding:25px 0 18px;
+    }
+
+    .eyebrow{
+      color:#9c91ff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      font-size:clamp(38px,7vw,62px);
+      line-height:1;
+      letter-spacing:-3px;
+      margin:8px 0 14px;
+    }
+
+    .hero p{
+      color:var(--muted);
+      font-size:16px;
+      max-width:650px;
+      line-height:1.5;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+    }
+
+    .card{
+      grid-column:span 4;
+      background:linear-gradient(145deg,#151a23,#10141b);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+      box-shadow:0 15px 45px #0002;
+    }
+
+    .wide{
+      grid-column:span 8;
+    }
+
+    .full{
+      grid-column:1/-1;
+    }
+
+    .card h3{
+      margin:0 0 12px;
+      font-size:15px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .big{
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:-1px;
+    }
+
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .progress{
+      height:9px;
+      background:#252b35;
+      border-radius:20px;
+      overflow:hidden;
+      margin:13px 0;
+    }
+
+    .progress i{
+      display:block;
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--accent),#b06cff);
+      border-radius:20px;
+      transition:.3s;
+    }
+
+    .btn{
+      border:0;
+      border-radius:13px;
+      padding:12px 15px;
+      background:linear-gradient(135deg,#7c5cff,#a66bff);
+      color:white;
+      font-weight:800;
+    }
+
+    .btn.secondary{
+      background:#202631;
+      border:1px solid var(--line);
+    }
+
+    .btn.green{
+      background:#163d35;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
+    }
+
+    .tag{
+      font-size:11px;
+      padding:5px 8px;
+      border-radius:999px;
+      background:#252034;
+      color:#b6aaff;
+    }
+
+    .list{
+      display:grid;
+      gap:8px;
+    }
+
+    .item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:13px;
+      border:1px solid var(--line);
+      background:#121720;
+      border-radius:15px;
+    }
+
+    .item input[type="checkbox"]{
+      width:21px;
+      height:21px;
+      accent-color:var(--accent);
+    }
+
+    .item button{
+      margin-left:auto;
+    }
+
+    .section{
+      display:none;
+    }
+
+    .section.active{
+      display:block;
+    }
+
+    .nav{
+      position:fixed;
+      z-index:10;
+      bottom:14px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(700px,calc(100% - 28px));
+      display:flex;
+      gap:4px;
+      padding:8px;
+      background:rgba(15,18,25,.9);
+      backdrop-filter:blur(18px);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 18px 50px #0008;
+    }
+
+    .nav button{
+      flex:1;
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:11px 5px;
+      border-radius:15px;
+      font-size:12px;
+    }
+
+    .nav button.active{
+      background:#242034;
+      color:white;
+    }
+
+    .search,
+    .field{
+      width:100%;
+      background:#121720;
+      border:1px solid var(--line);
+      color:white;
+      border-radius:15px;
+      padding:14px;
+      outline:none;
+      margin-bottom:10px;
+    }
+
+    .chat{
+      height:60vh;
+      min-height:430px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .messages{
+      flex:1;
+      overflow:auto;
+      padding:4px;
+    }
+
+    .msg{
+      max-width:82%;
+      padding:12px 14px;
+      border-radius:16px;
+      margin:8px 0;
+      line-height:1.45;
+    }
+
+    .msg.ai{
+      background:#1a2029;
+      border:1px solid var(--line);
+    }
+
+    .msg.me{
+      margin-left:auto;
+      background:#4f3bb7;
+    }
+
+    .chatbar{
+      display:flex;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .chatbar input{
+      flex:1;
+      background:#121720;
+      border:1px solid var(--line);
+      color:white;
+      border-radius:14px;
+      padding:13px;
+      outline:none;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:#0009;
+      z-index:30;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .sheet{
+      width:min(700px,100%);
+      background:#121720;
+      border:1px solid var(--line);
+      border-radius:26px 26px 0 0;
+      padding:20px;
+      max-height:85vh;
+      overflow:auto;
+    }
+
+    .sheet textarea{
+      resize:vertical;
+    }
+
+    .toast{
+      position:fixed;
+      z-index:50;
+      left:50%;
+      top:18px;
+      transform:translateX(-50%) translateY(-80px);
+      background:#202631;
+      border:1px solid var(--line);
+      padding:12px 16px;
+      border-radius:13px;
+      transition:.25s;
+    }
+
+    .toast.show{
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .timer{
+      font-size:42px;
+      font-weight:900;
+      text-align:center;
+      padding:15px 0;
+    }
+
+    textarea{
+      font-family:inherit;
+    }
+
+    @media(max-width:720px){
+      .app{
+        padding:12px 12px 105px;
+      }
+
+      .card,
+      .wide{
+        grid-column:1/-1;
+      }
+
+      .hero h1{
+        font-size:43px;
+      }
+
+      .nav button{
+        font-size:10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="toast" class="toast"></div>
+
+<div class="app">
+
+  <header class="top">
+    <div class="brand">MY<span>.</span></div>
+    <button class="iconbtn" onclick="openCreate()">+</button>
+  </header>
+
+  <!-- HOME -->
+
+  <section id="home" class="section active">
+
+    <div class="hero">
+      <div class="eyebrow">Personal System</div>
+
+      <h1>
+        Good day,
+        <span id="nameView">Sanad</span>.
+      </h1>
+
+      <p id="brief">
+        Your space. Your goals. Your projects. Everything in one place.
+      </p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card wide">
+
+        <div class="row">
+
+          <div>
+            <div class="muted">TODAY</div>
+            <div class="big" id="todayScore">0%</div>
+          </div>
+
+          <span class="tag" id="level">
+            LEVEL 1
+          </span>
+
+        </div>
+
+        <div class="progress">
+          <i id="levelBar"></i>
+        </div>
+
+        <div class="actions">
+
+          <button class="btn" onclick="go('ai')">
+            Ask AI
+          </button>
+
+          <button class="btn secondary" onclick="openCreate()">
+            Create
+          </button>
+
+          <button class="btn secondary" onclick="go('life')">
+            Planner
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>Quick Stats</h3>
+
+        <div class="row">
+          <span class="muted">Tasks</span>
+          <b id="taskCount">0</b>
+        </div>
+
+        <div class="row">
+          <span class="muted">Projects</span>
+          <b id="projectCount">0</b>
+        </div>
+
+        <div class="row">
+          <span class="muted">XP</span>
+          <b id="xp">0</b>
+        </div>
+
+      </div>
+
+
+      <div class="card wide">
+
+        <div class="row">
+
+          <h3>Today</h3>
+
+          <span class="tag" id="date"></span>
+
+        </div>
+
+        <div class="list" id="todayList"></div>
+
+      </div>
+
+
+      <div class="card wide">
+
+        <h3>Continue</h3>
+
+        <div class="list" id="projectList"></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>10 Week Journey</h3>
+
+        <div class="big" id="week">
+          1 / 10
+        </div>
+
+        <div class="progress">
+          <i id="weekBar"></i>
+        </div>
+
+        <span class="muted">
+          Keep building.
+        </span>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>Quick Note</h3>
+
+        <textarea
+          id="quickNote"
+          class="field"
+          rows="4"
+          placeholder="Save an idea..."
+        ></textarea>
+
+        <button
+          class="btn secondary"
+          onclick="saveNote()"
+        >
+          Save Note
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AI -->
+
+  <section id="ai" class="section">
+
+    <div class="hero">
+
+      <div class="eyebrow">
+        Your Assistant
+      </div>
+
+      <h1>AI</h1>
+
+      <p>
+        Ask, plan, build, learn and organize.
+      </p>
+
+    </div>
+
+
+    <div class="card full chat">
+
+      <div class="messages" id="messages">
+
+        <div class="msg ai">
+          I'm your assistant inside MY.
+          Tell me what you want to work on.
+        </div>
+
+      </div>
+
+
+      <div class="chatbar">
+
+        <input
+          id="chatInput"
+          placeholder="Ask anything..."
+          onkeydown="if(event.key==='Enter')sendChat()"
+        >
+
+        <button
+          class="btn"
+          onclick="sendChat()"
+        >
+          Send
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LIFE -->
+
+  <section id="life" class="section">
+
+    <div class="hero">
+
+      <div class="eyebrow">
+        Your Life
+      </div>
+
+      <h1>Planner</h1>
+
+      <p>
+        Tasks, habits and routines.
+      </p>
+
+    </div>
+
+
+    <div class="card full">
+
+      <input
+        id="taskInput"
+        class="search"
+        placeholder="Add a task and press Enter"
+        onkeydown="if(event.key==='Enter')addTask()"
+      >
+
+      <div
+        class="list"
+        id="tasks"
+      ></div>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="card">
+
+        <h3>Habits</h3>
+
+        <div
+          class="list"
+          id="habits"
+        ></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>Routine</h3>
+
+        <div class="list">
+
+          <div class="item">
+            Morning
+          </div>
+
+          <div class="item">
+            School / Learning
+          </div>
+
+          <div class="item">
+            Personal Time
+          </div>
+
+          <div class="item">
+            Wind Down
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FITNESS -->
+
+  <section id="fitness" class="section">
+
+    <div class="hero">
+
+      <div class="eyebrow">
+        One Part Of Your System
+      </div>
+
+      <h1>Fitness</h1>
+
+      <p>
+        Training without letting it define the whole app.
+      </p>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="card wide">
+
+        <h3 id="workoutTitle">
+          Today's Workout
+        </h3>
+
+        <div
+          class="list"
+          id="workout"
+        ></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h3>Rest Timer</h3>
+
+        <div
+          class="timer"
+          id="timer"
+        >
+          01:30
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn secondary"
+            onclick="startTimer(60)"
+          >
+            60s
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="startTimer(90)"
+          >
+            90s
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="startTimer(120)"
+          >
+            120s
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROJECTS -->
+
+  <section id="projects" class="section">
+
+    <div class="hero">
+
+      <div class="eyebrow">
+        Your Work
+      </div>
+
+      <h1>Projects</h1>
+
+      <p>
+        Build anything. Keep your ideas organized.
+      </p>
+
+    </div>
+
+
+    <div class="card full">
+
+      <button
+        class="btn"
+        onclick="openProject()"
+      >
+        New Project
+      </button>
+
+      <div
+        class="list"
+        id="projectsList"
+        style="margin-top:14px"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ME -->
+
+  <section id="me" class="section">
+
+    <div class="hero">
+
+      <div class="eyebrow">
+        Your Space
+      </div>
+
+      <h1>Me</h1>
+
+      <p>
+        Customize the system around you.
+      </p>
+
+    </div>
+
+
+    <div class="card full">
+
+      <h3>Profile</h3>
+
+      <input
+        id="nameInput"
+        class="field"
+        placeholder="Your name"
+      >
+
+      <input
+        id="goalInput"
+        class="field"
+        placeholder="Your main goal"
+      >
+
+      <button
+        class="btn"
+        onclick="saveProfile()"
+      >
+        Save Profile
+      </button>
+
+    </div>
+
+
+    <div class="card full">
+
+      <h3>Your Data</h3>
+
+      <p class="muted">
+        Your current data is stored locally in this browser.
+      </p>
+
+      <div class="actions">
+
+        <button
+          class="btn secondary"
+          onclick="exportData()"
+        >
+          Export Data
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="resetAll()"
+        >
+          Reset App
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<nav class="nav">
+
+  <button
+    onclick="go('home')"
+    data-nav="home"
+    class="active"
+  >
+    Home
+  </button>
+
+  <button
+    onclick="go('ai')"
+    data-nav="ai"
+  >
+    AI
+  </button>
+
+  <button
+    onclick="go('life')"
+    data-nav="life"
+  >
+    Life
+  </button>
+
+  <button
+    onclick="go('fitness')"
+    data-nav="fitness"
+  >
+    Fitness
+  </button>
+
+  <button
+    onclick="go('projects')"
+    data-nav="projects"
+  >
+    Projects
+  </button>
+
+  <button
+    onclick="go('me')"
+    data-nav="me"
+  >
+    Me
+  </button>
+
+</nav>
+
+
+<!-- CREATE MODAL -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+  <div class="sheet">
+
+    <div class="row">
+
+      <h2 id="modalTitle">
+        Create
+      </h2>
+
+      <button
+        class="iconbtn"
+        onclick="closeModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div id="modalBody"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+const KEY = "my-personal-system-v1";
+
+let data =
+  JSON.parse(localStorage.getItem(KEY)) ||
+  {
+    name:"Sanad",
+    goal:"Build my own system",
+    tasks:[],
+    projects:[
+      {
+        name:"My Gym",
+        desc:"Personal fitness system"
+      },
+      {
+        name:"Green Lightning",
+        desc:"Creative universe"
+      }
+    ],
+    habits:[
+      "Read / learn",
+      "Move",
+      "Work on a project"
+    ],
+    notes:[],
+    xp:0,
+    week:1
+  };
+
+
+function save(){
+
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function go(id){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(button=>{
+      button.classList.toggle(
+        "active",
+        button.dataset.nav===id
+      );
+    });
+
+
+  if(id==="home") renderHome();
+  if(id==="life") renderLife();
+  if(id==="projects") renderProjects();
+  if(id==="me") renderMe();
+  if(id==="fitness") renderFitness();
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function renderHome(){
+
+  document.getElementById("nameView")
+    .textContent =
+    data.name || "there";
+
+
+  document.getElementById("date")
+    .textContent =
+    new Date().toLocaleDateString(
+      undefined,
+      {
+        month:"short",
+        day:"numeric"
+      }
+    );
+
+
+  document.getElementById("taskCount")
+    .textContent =
+    data.tasks.filter(x=>!x.done).length;
+
+
+  document.getElementById("projectCount")
+    .textContent =
+    data.projects.length;
+
+
+  document.getElementById("xp")
+    .textContent =
+    data.xp;
+
+
+  const completed =
+    data.tasks.filter(x=>x.done).length;
+
+
+  const total =
+    Math.max(data.tasks.length,1);
+
+
+  document.getElementById("todayScore")
+    .textContent =
+    Math.round(
+      completed/total*100
+    )+"%";
+
+
+  const level =
+    Math.floor(data.xp/100)+1;
+
+
+  document.getElementById("level")
+    .textContent =
+    "LEVEL "+level;
+
+
+  document.getElementById("levelBar")
+    .style.width =
+    (data.xp%100)+"%";
+
+
+  document.getElementById("week")
+    .textContent =
+    data.week+" / 10";
+
+
+  document.getElementById("weekBar")
+    .style.width =
+    data.week*10+"%";
+
+
+  document.getElementById("todayList")
+    .innerHTML =
+    data.tasks.length
+
+    ?
+
+    data.tasks
+      .slice(0,5)
+      .map((task,index)=>`
+
+        <div class="item">
+
+          <input
+            type="checkbox"
+            ${task.done?"checked":""}
+            onchange="toggleTask(${index})"
+          >
+
+          <span>
+            ${escapeHTML(task.text)}
+          </span>
+
+        </div>
+
+      `)
+      .join("")
+
+    :
+
+    `<div class="item muted">
+      Nothing scheduled yet.
+    </div>`;
+
+
+  document.getElementById("projectList")
+    .innerHTML =
+    data.projects
+      .slice(0,4)
+      .map(project=>`
+
+        <div class="item">
+
+          <div>
+
+            <b>
+              ${escapeHTML(project.name)}
+            </b>
+
+            <div class="muted">
+              ${escapeHTML(project.desc || "")}
+            </div>
+
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* =========================
+   TASKS
+========================= */
+
+function renderLife(){
+
+  document.getElementById("tasks")
+    .innerHTML =
+
+    data.tasks.length
+
+    ?
+
+    data.tasks.map((task,index)=>`
+
+      <div class="item">
+
+        <input
+          type="checkbox"
+          ${task.done?"checked":""}
+          onchange="toggleTask(${index})"
+        >
+
+        <span
+          style="
+          flex:1;
+          ${task.done
+            ?"text-decoration:line-through;color:#78818f"
+            :""
+          }"
+        >
+          ${escapeHTML(task.text)}
+        </span>
+
+        <button
+          class="iconbtn"
+          onclick="deleteTask(${index})"
+        >
+          ×
+        </button>
+
+      </div>
+
+    `)
+    .join("")
+
+    :
+
+    `<div class="item muted">
+      No tasks yet.
+    </div>`;
+
+
+  document.getElementById("habits")
+    .innerHTML =
+    data.habits.map(habit=>`
+
+      <div class="item">
+
+        <input
+          type="checkbox"
+          onchange="
+            data.xp+=10;
+            save();
+            renderLife();
+            renderHome();
+          "
+        >
+
+        <span>
+          ${escapeHTML(habit)}
+        </span>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+function addTask(){
+
+  const input =
+    document.getElementById("taskInput");
+
+  const text =
+    input.value.trim();
+
+
+  if(!text) return;
+
+
+  data.tasks.unshift({
+    text:text,
+    done:false
+  });
+
+
+  data.xp+=5;
+
+  save();
+
+  input.value="";
+
+  renderLife();
+  renderHome();
+
+  toast("Task added");
+
+}
+
+
+function toggleTask(index){
+
+  data.tasks[index].done =
+    !data.tasks[index].done;
+
+
+  if(data.tasks[index].done){
+
+    data.xp+=10;
+
+  }
+
+
+  save();
+
+  renderLife();
+  renderHome();
+
+}
+
+
+function deleteTask(index){
+
+  data.tasks.splice(index,1);
+
+  save();
+
+  renderLife();
+  renderHome();
+
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+function renderProjects(){
+
+  document.getElementById("projectsList")
+    .innerHTML =
+    data.projects
+      .map((project,index)=>`
+
+        <div class="item">
+
+          <div style="flex:1">
+
+            <b>
+              ${escapeHTML(project.name)}
+            </b>
+
+            <div class="muted">
+              ${escapeHTML(project.desc || "")}
+            </div>
+
+          </div>
+
+          <button
+            class="iconbtn"
+            onclick="deleteProject(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+function openProject(){
+
+  document.getElementById("modalTitle")
+    .textContent =
+    "New Project";
+
+
+  document.getElementById("modalBody")
+    .innerHTML = `
+
+      <input
+        id="projectName"
+        class="field"
+        placeholder="Project name"
+      >
+
+      <textarea
+        id="projectDescription"
+        class="field"
+        rows="5"
+        placeholder="What is this project?"
+      ></textarea>
+
+      <button
+        class="btn"
+        onclick="createProject()"
+      >
+        Create Project
+      </button>
+
+    `;
+
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+function createProject(){
+
+  const name =
+    document
+      .getElementById("projectName")
+      .value
+      .trim();
+
+
+  if(!name) return;
+
+
+  const description =
+    document
+      .getElementById("projectDescription")
+      .value
+      .trim();
+
+
+  data.projects.unshift({
+    name:name,
+    desc:description
+  });
+
+
+  data.xp+=20;
+
+  save();
+
+  closeModal();
+
+  renderProjects();
+  renderHome();
+
+  toast("Project created");
+
+}
+
+
+function deleteProject(index){
+
+  data.projects.splice(index,1);
+
+  save();
+
+  renderProjects();
+  renderHome();
+
+}
+
+
+/* =========================
+   CREATE
+========================= */
+
+function openCreate(){
+
+  document.getElementById("modalTitle")
+    .textContent =
+    "Create";
+
+
+  document.getElementById("modalBody")
+    .innerHTML = `
+
+      <div class="actions">
+
+        <button
+          class="btn"
+          onclick="
+            closeModal();
+            go('ai')
+          "
+        >
+          Ask AI
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="
+            closeModal();
+            openProject()
+          "
+        >
+          Project
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="
+            closeModal();
+            go('life')
+          "
+        >
+          Task
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="
+            closeModal();
+            go('fitness')
+          "
+        >
+          Workout
+        </button>
+
+      </div>
+
+    `;
+
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function renderMe(){
+
+  document.getElementById("nameInput")
+    .value =
+    data.name;
+
+
+  document.getElementById("goalInput")
+    .value =
+    data.goal;
+
+}
+
+
+function saveProfile(){
+
+  data.name =
+    document
+      .getElementById("nameInput")
+      .value
+      .trim()
+      ||
+      "You";
+
+
+  data.goal =
+    document
+      .getElementById("goalInput")
+      .value
+      .trim();
+
+
+  save();
+
+  renderHome();
+
+  toast("Profile saved");
+
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+function saveNote(){
+
+  const input =
+    document.getElementById("quickNote");
+
+
+  const text =
+    input.value.trim();
+
+
+  if(!text) return;
+
+
+  data.notes.unshift({
+    text:text,
+    date:new Date().toISOString()
+  });
+
+
+  data.xp+=5;
+
+  save();
+
+  input.value="";
+
+  toast("Note saved");
+
+}
+
+
+/* =========================
+   FITNESS
+========================= */
+
+const workouts = {
+
+  Monday:[
+    "Bench Press",
+    "Incline Press",
+    "Chest Fly",
+    "Triceps Pushdown"
+  ],
+
+  Tuesday:[
+    "Lat Pulldown",
+    "Cable Row",
+    "Dumbbell Row",
+    "Curls"
+  ],
+
+  Thursday:[
+    "Leg Press",
+    "Goblet Squat",
+    "Leg Curl",
+    "Calf Raise"
+  ],
+
+  Friday:[
+    "Goblet Squat",
+    "Dumbbell Press",
+    "Lat Pulldown",
+    "Shoulder Press"
+  ]
+
+};
+
+
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
+
+const today =
+  days[new Date().getDay()];
+
+
+function renderFitness(){
+
+  const workout =
+    workouts[today] || [];
+
+
+  document.getElementById("workoutTitle")
+    .textContent =
+    workout.length
+      ? today+" Workout"
+      : "Recovery Day";
+
+
+  document.getElementById("workout")
+    .innerHTML =
+
+    workout.length
+
+    ?
+
+    workout.map(exercise=>`
+
+      <div class="item">
+
+        <input
+          type="checkbox"
+          onchange="
+            data.xp+=15;
+            save();
+            renderHome();
+          "
+        >
+
+        <span style="flex:1">
+          ${exercise}
+        </span>
+
+        <span class="tag">
+          3 sets
+        </span>
+
+      </div>
+
+    `)
+    .join("")
+
+    :
+
+    `<div class="item muted">
+      Recovery is part of progress.
+    </div>`;
+
+}
+
+
+let timerInterval;
+
+
+function startTimer(seconds){
+
+  clearInterval(timerInterval);
+
+
+  const end =
+    Date.now()+seconds*1000;
+
+
+  timerInterval =
+    setInterval(()=>{
+
+      const remaining =
+        Math.max(
+          0,
+          end-Date.now()
+        );
+
+
+      const totalSeconds =
+        Math.ceil(
+          remaining/1000
+        );
+
+
+      document.getElementById("timer")
+        .textContent =
+        String(
+          Math.floor(totalSeconds/60)
+        ).padStart(2,"0")
+        +
+        ":"
+        +
+        String(
+          totalSeconds%60
+        ).padStart(2,"0");
+
+
+      if(!remaining){
+
+        clearInterval(timerInterval);
+
+        toast("Rest finished");
+
+      }
+
+    },200);
+
+}
+
+
+/* =========================
+   AI
+========================= */
+
+function sendChat(){
+
+  const input =
+    document.getElementById("chatInput");
+
+
+  const text =
+    input.value.trim();
+
+
+  if(!text) return;
+
+
+  addMessage(
+    text,
+    "me"
+  );
+
+
+  input.value="";
+
+
+  setTimeout(()=>{
+
+    const q =
+      text.toLowerCase();
+
+
+    let response;
+
+
+    if(q.includes("plan")){
+
+      response =
+        "I can help you plan your day. Tell me what you need to get done and I can turn it into tasks.";
+
+    }
+
+    else if(q.includes("project")){
+
+      response =
+        "Let's build it. Open Projects and create a workspace for whatever you are making.";
+
+    }
+
+    else if(q.includes("workout")){
+
+      response =
+        "Open Fitness and I can help organize your training.";
+
+    }
+
+    else if(q.includes("school")){
+
+      response =
+        "I can help organize school tasks and study sessions inside Life.";
+
+    }
+
+    else{
+
+      response =
+        "I'm ready. Tell me what you want to build, learn, organize, or improve.";
+
+    }
+
+
+    addMessage(
+      response,
+      "ai"
+    );
+
+
+  },350);
+
+}
+
+
+function addMessage(
+  text,
+  type
+){
+
+  const message =
+    document.createElement("div");
+
+
+  message.className =
+    "msg "
+    +
+    (type==="ai"
+      ?"ai"
+      :"me");
+
+
+  message.textContent =
+    text;
+
+
+  const box =
+    document.getElementById(
+      "messages"
+    );
+
+
+  box.appendChild(message);
+
+
+  box.scrollTop =
+    box.scrollHeight;
+
+}
+
+
+/* =========================
+   DATA
+========================= */
+
+function exportData(){
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.href =
+    URL.createObjectURL(blob);
+
+
+  link.download =
+    "my-personal-system-data.json";
+
+
+  link.click();
+
+}
+
+
+function resetAll(){
+
+  if(
+    confirm(
+      "Reset all app data?"
+    )
+  ){
+
+    localStorage.removeItem(KEY);
+
+    location.reload();
+
+  }
+
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(
+      /[&<>"']/g,
+      character=>({
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+
+      }[character])
+    );
+
+}
+
+
+function toast(message){
+
+  const box =
+    document.getElementById(
+      "toast"
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.classList.add("show");
+
+
+  setTimeout(
+    ()=>{
+      box.classList.remove("show");
+    },
+    1800
+  );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderHome();
+renderLife();
+renderProjects();
+renderMe();
+renderFitness();
+
+</script>
+
+</body>
+</html>
